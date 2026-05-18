@@ -1,7 +1,9 @@
 package daw;
 
+import conexion.Conexion;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Conexion.getInstance();
     }
 }
