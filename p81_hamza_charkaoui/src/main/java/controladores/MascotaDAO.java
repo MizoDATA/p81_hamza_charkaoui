@@ -1,6 +1,7 @@
 package controladores;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class MascotaDAO implements IMascota {
 
     @Override
     public List<MascotaDTO> getAll() throws SQLException {
-        
+
         List<MascotaDTO> lista = new ArrayList<>();
 
         try (Statement st = con.createStatement()) {
@@ -88,14 +89,67 @@ public class MascotaDAO implements IMascota {
 
     @Override
     public List<MascotaDTO> mascotasDeUnVeterinario(int id_veterinario) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mascotasDeUnVeterinario'");
+
+        // lo mismo que arriba pero where id_veterinario xd
+         List<MascotaDTO> lista = new ArrayList<>();
+
+        String sql = "select * from mascota where id_veterinario = ?";
+
+        try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+            prest.setInt(1, id_veterinario);
+
+            ResultSet res = prest.executeQuery();
+
+            while (res.next()) {
+
+                MascotaDTO mascota = new MascotaDTO();
+
+                mascota.setId_mascota(res.getInt("id_mascota"));
+                mascota.setNumchip(res.getInt("numchip"));
+                mascota.setNommasc(res.getString("nommasc"));
+                mascota.setPeso(res.getDouble("peso"));
+
+                // Conversión Date -> LocalDate
+                mascota.setFecnacim(res.getDate("fecnacim").toLocalDate());
+
+                mascota.setTipo(res.getString("tipo"));
+                mascota.setId_veterinario(res.getInt("id_veterinario"));
+
+                lista.add(mascota);
+            }
+        }
+
+        return lista;
     }
 
     @Override
     public int insertMascota(MascotaDTO mascota) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertMascota'");
+           int numFilas = 0;
+        String sql = "insert into mascota values (?,?,?,?,?,?,?)";
+
+        if (findByPk(mascota.getId_mascota()) != null) {
+            // Existe un registro con esa pk
+            // No se hace la inserción
+            return numFilas;
+        } else {
+            // Instanciamos el objeto PreparedStatement para inserción
+            // de datos. Sentencia parametrizada
+            try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+                // Establecemos los parámetros de la sentencia
+                prest.setInt(1, mascota.getId_mascota());
+                prest.setInt(2, mascota.getNumchip());
+                prest.setString(3, mascota.getNommasc());
+                prest.setDouble(4, mascota.getPeso());
+                prest.setDate(5,Date.valueOf(mascota.getFecnacim()));
+                prest.setString(6, mascota.getTipo());
+                prest.setInt(7, mascota.getId_veterinario());
+
+                numFilas = prest.executeUpdate();
+            }
+            return numFilas;
+        }
     }
 
     @Override

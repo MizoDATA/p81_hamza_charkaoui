@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conexion.Conexion;
+import controladores.MascotaDAO;
 import controladores.VeterinarioDAO;
+import modelos.MascotaDTO;
 import modelos.VeterinarioDTO;
 
 public class MainDePruebas {
@@ -29,13 +31,20 @@ public class MainDePruebas {
                 "");
         daoVeterinario.insertVeterinario(veterinarioNuevo);
 
-
         System.out.println("-----------------------------");
         veterinarioNuevo = daoVeterinario.findByPk(4);
         System.out.println(veterinarioNuevo);
 
+        MascotaDAO daoMascota = new MascotaDAO();
+        List<MascotaDTO> listaMascotas = new ArrayList<>();
 
+        listaMascotas = daoMascota.getAll();
+        System.out.println("Lista total - >");
+        listaMascotas.forEach(System.out::println);
 
-        
+        listaMascotas = daoMascota.mascotasDeUnVeterinario(1);
+        System.out.println("Lista de mascotas con veterinario id = 1");
+        listaMascotas.forEach(System.out::println);
+
     }
 }
