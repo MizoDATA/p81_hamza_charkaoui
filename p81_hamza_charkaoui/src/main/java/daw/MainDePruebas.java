@@ -33,5 +33,9 @@ public class MainDePruebas {
         System.out.println("-----------------------------");
         veterinarioNuevo = daoVeterinario.findByPk(4);
         System.out.println(veterinarioNuevo);
+
+
+
+        
     }
 }
