@@ -17,13 +17,21 @@ public class MainDePruebas {
         listaVeterinarios = daoVeterinario.getAll();
         listaVeterinarios.forEach(System.out::println);
 
-        VeterinarioDTO veterinarioNuevo = new VeterinarioDTO(1, "11115599H", "Mew", "Calle calle", "151155115",
+        VeterinarioDTO veterinarioModificado = new VeterinarioDTO(1, "11115599H", "Mew", "Calle calle", "151155115",
                 "mew@gmail.com");
-        daoVeterinario.updateVeterinario(1, veterinarioNuevo);
+        daoVeterinario.updateVeterinario(1, veterinarioModificado);
 
         System.out.println("-----------------------------");
         listaVeterinarios = daoVeterinario.getAll();
         listaVeterinarios.forEach(System.out::println);
 
+        VeterinarioDTO veterinarioNuevo = new VeterinarioDTO(4, "45457812A", "Pedro", "Vive en el Gym", "",
+                "");
+        daoVeterinario.insertVeterinario(veterinarioNuevo);
+
+
+        System.out.println("-----------------------------");
+        veterinarioNuevo = daoVeterinario.findByPk(4);
+        System.out.println(veterinarioNuevo);
     }
 }
