@@ -54,7 +54,7 @@ values
 
 select * from mascota;
 
-
+select * from veterinario;
 
 
 

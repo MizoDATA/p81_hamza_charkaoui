@@ -129,7 +129,7 @@ public class VeterinarioDAO implements IVeterinario {
     @Override
     public int updateVeterinario(int id_veterinario, VeterinarioDTO nuevosDatos) throws SQLException {
         int numFilas = 0;
-        String sql = "update veterinario set nomvete = ?, dir = ? , telefono = ?, email = ?  where id_veterinario = ?";
+        String sql = "update veterinario set nif = ? , nomvete = ?, dir = ? , telefono = ?, email = ?  where id_veterinario = ?";
 
         if (findByPk(id_veterinario) == null) {
             // La persona a actualizar no existe
@@ -144,7 +144,8 @@ public class VeterinarioDAO implements IVeterinario {
                 prest.setString(2, nuevosDatos.getNomvete());
                 prest.setString(3, nuevosDatos.getDir());
                 prest.setString(4, nuevosDatos.getTelefono());
-                prest.setString(5, nuevosDatos.getTelefono());
+                prest.setString(5, nuevosDatos.getEmail());
+                prest.setInt(6, id_veterinario);
 
                 numFilas = prest.executeUpdate();
             }
