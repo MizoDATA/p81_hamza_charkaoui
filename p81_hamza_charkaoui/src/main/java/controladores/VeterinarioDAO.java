@@ -110,9 +110,20 @@ public class VeterinarioDAO implements IVeterinario {
     }
 
     @Override
-    public int deleteVeterinario(VeterinarioDTO p) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteVeterinario'");
+    public int deleteVeterinario(VeterinarioDTO v) throws SQLException {
+         int numFilas = 0;
+
+        String sql = "delete from veterinario where id_veterinario = ?";
+
+        // Sentencia parametrizada
+        try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+            // Establecemos los parámetros de la sentencia
+            prest.setInt(1, v.getId_veterinario());
+            // Ejecutamos la sentencia
+            numFilas = prest.executeUpdate();
+        }
+        return numFilas;
     }
 
     @Override
