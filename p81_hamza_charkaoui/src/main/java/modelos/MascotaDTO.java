@@ -10,10 +10,10 @@ public class MascotaDTO {
     private String nommasc;
     private double peso;
     private LocalDate fecnacim;
-    private Tipos tipo;
+    private String tipo;
     private int id_veterinario;
     
-    public MascotaDTO(int id_mascota, int numchip, String nommasc, double peso, LocalDate fecnacim, Tipos tipo,
+    public MascotaDTO(int id_mascota, int numchip, String nommasc, double peso, LocalDate fecnacim, String tipo,
             int id_veterinario) {
         this.id_mascota = id_mascota;
         this.numchip = numchip;
@@ -67,11 +67,11 @@ public class MascotaDTO {
         this.fecnacim = fecnacim;
     }
 
-    public Tipos getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(Tipos tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
