@@ -1,6 +1,7 @@
 package controladores;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,6 +22,7 @@ public class MascotaDAO implements IMascota {
 
     @Override
     public List<MascotaDTO> getAll() throws SQLException {
+        
         List<MascotaDTO> lista = new ArrayList<>();
 
         try (Statement st = con.createStatement()) {
@@ -51,8 +53,37 @@ public class MascotaDAO implements IMascota {
 
     @Override
     public MascotaDTO findByPk(int id_mascota) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByPk'");
+
+         ResultSet res = null;
+
+        MascotaDTO mascota = new MascotaDTO();
+
+        String sql = "select * from mascota where id_mascota = ?";
+
+        try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+            prest.setInt(1, id_mascota);
+
+            res = prest.executeQuery();
+
+            if (res.next()) {
+
+                mascota.setId_mascota(res.getInt("id_mascota"));
+                mascota.setNumchip(res.getInt("numchip"));
+                mascota.setNommasc(res.getString("nommasc"));
+                mascota.setPeso(res.getDouble("peso"));
+
+                // Conversión Date -> LocalDate
+                mascota.setFecnacim(res.getDate("fecnacim").toLocalDate());
+
+                mascota.setTipo(res.getString("tipo"));
+                mascota.setId_veterinario(res.getInt("id_veterinario"));
+
+                return mascota;
+            }
+
+            return null;
+        }
     }
 
     @Override
