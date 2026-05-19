@@ -14,14 +14,8 @@ public interface IVeterinario {
     // Método para insertar un registro
     int insertVeterinario (VeterinarioDTO persona) throws SQLException;
     
-    // Método para insertar varios registros
-    int insertVeterinarios (List<VeterinarioDTO> lista) throws SQLException;
-    
     // Método para borrar una persona
     int deleteVeterinario (VeterinarioDTO p) throws SQLException;
-    
-    // Método para borrar toda la tabla
-    int deleteVeterinarios() throws SQLException;
     
     // Método para modificar una persona. Se modifica a la persona que tenga esa 'pk'
     // con los nuevos datos que traiga la persona 'nuevosDatos'
