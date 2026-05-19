@@ -13,11 +13,9 @@ import conexion.Conexion;
 import modelos.IVeterinario;
 import modelos.VeterinarioDTO;
 
-
-
 public class VeterinarioDAO implements IVeterinario {
 
-        private Connection con = null;
+    private Connection con = null;
 
     public VeterinarioDAO() {
         con = Conexion.getInstance();
@@ -42,7 +40,7 @@ public class VeterinarioDAO implements IVeterinario {
                 v.setDir(res.getString("dir"));
                 v.setTelefono(res.getString("telefono"));
                 v.setEmail(res.getString("email"));
-                //Añadimos el objeto a la lista
+                // Añadimos el objeto a la lista
                 lista.add(v);
             }
         }
@@ -65,10 +63,11 @@ public class VeterinarioDAO implements IVeterinario {
             // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             res = prest.executeQuery();
 
-            // Nos posicionamos en el primer registro del Resultset. Sólo debe haber una fila
+            // Nos posicionamos en el primer registro del Resultset. Sólo debe haber una
+            // fila
             // si existe esa pk
             if (res.next()) {
-                // Recogemos los datos de la persona, guardamos en un objeto
+                // Recogemos los datos del veterinario, guardamos en un objeto
                 veterinario.setId_veterinario(res.getInt("id_veterinario"));
                 veterinario.setNif(res.getString("nif"));
                 veterinario.setNomvete(res.getString("nomvete"));
@@ -83,9 +82,31 @@ public class VeterinarioDAO implements IVeterinario {
     }
 
     @Override
-    public int insertVeterinario(VeterinarioDTO persona) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertVeterinario'");
+    public int insertVeterinario(VeterinarioDTO veterinario) throws SQLException {
+        int numFilas = 0;
+        String sql = "insert into veterinario values (?,?,?,?,?,?)";
+
+        if (findByPk(veterinario.getId_veterinario()) != null) {
+            // Existe un registro con esa pk
+            // No se hace la inserción
+            return numFilas;
+        } else {
+            // Instanciamos el objeto PreparedStatement para inserción
+            // de datos. Sentencia parametrizada
+            try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+                // Establecemos los parámetros de la sentencia
+                prest.setInt(1, veterinario.getId_veterinario());
+                prest.setString(2, veterinario.getNif());
+                prest.setString(3, veterinario.getNomvete());
+                prest.setString(4, veterinario.getDir());
+                prest.setString(5, veterinario.getTelefono());
+                prest.setString(6, veterinario.getEmail());
+
+                numFilas = prest.executeUpdate();
+            }
+            return numFilas;
+        }
     }
 
     @Override
@@ -99,7 +120,5 @@ public class VeterinarioDAO implements IVeterinario {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateVeterinario'");
     }
-
-
 
 }
