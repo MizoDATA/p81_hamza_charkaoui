@@ -49,7 +49,7 @@ public class VeterinarioDAO implements IVeterinario {
     }
 
     @Override
-    public VeterinarioDTO findByPk(int pk) throws SQLException {
+    public VeterinarioDTO findByPk(int id_veterinario) throws SQLException {
 
         ResultSet res = null;
         VeterinarioDTO veterinario = new VeterinarioDTO();
@@ -58,7 +58,7 @@ public class VeterinarioDAO implements IVeterinario {
 
         try (PreparedStatement prest = con.prepareStatement(sql)) {
             // Preparamos la sentencia parametrizada
-            prest.setInt(1, pk);
+            prest.setInt(1, id_veterinario);
 
             // Ejecutamos la sentencia y obtenemos las filas en el objeto ResultSet
             res = prest.executeQuery();
@@ -111,7 +111,7 @@ public class VeterinarioDAO implements IVeterinario {
 
     @Override
     public int deleteVeterinario(VeterinarioDTO v) throws SQLException {
-         int numFilas = 0;
+        int numFilas = 0;
 
         String sql = "delete from veterinario where id_veterinario = ?";
 
@@ -127,9 +127,29 @@ public class VeterinarioDAO implements IVeterinario {
     }
 
     @Override
-    public int updateVeterinario(int pk, VeterinarioDTO nuevosDatos) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateVeterinario'");
+    public int updateVeterinario(int id_veterinario, VeterinarioDTO nuevosDatos) throws SQLException {
+        int numFilas = 0;
+        String sql = "update veterinario set nomvete = ?, dir = ? , telefono = ?, email = ?  where id_veterinario = ?";
+
+        if (findByPk(id_veterinario) == null) {
+            // La persona a actualizar no existe
+            return numFilas;
+        } else {
+            // Instanciamos el objeto PreparedStatement para inserción
+            // de datos. Sentencia parametrizada
+            try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+                // Establecemos los parámetros de la sentencia
+                prest.setString(1, nuevosDatos.getNif());
+                prest.setString(2, nuevosDatos.getNomvete());
+                prest.setString(3, nuevosDatos.getDir());
+                prest.setString(4, nuevosDatos.getTelefono());
+                prest.setString(5, nuevosDatos.getTelefono());
+
+                numFilas = prest.executeUpdate();
+            }
+            return numFilas;
+        }
     }
 
 }
