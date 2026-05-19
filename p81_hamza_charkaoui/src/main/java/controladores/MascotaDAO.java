@@ -55,7 +55,7 @@ public class MascotaDAO implements IMascota {
     @Override
     public MascotaDTO findByPk(int id_mascota) throws SQLException {
 
-         ResultSet res = null;
+        ResultSet res = null;
 
         MascotaDTO mascota = new MascotaDTO();
 
@@ -91,7 +91,7 @@ public class MascotaDAO implements IMascota {
     public List<MascotaDTO> mascotasDeUnVeterinario(int id_veterinario) throws SQLException {
 
         // lo mismo que arriba pero where id_veterinario xd
-         List<MascotaDTO> lista = new ArrayList<>();
+        List<MascotaDTO> lista = new ArrayList<>();
 
         String sql = "select * from mascota where id_veterinario = ?";
 
@@ -125,7 +125,7 @@ public class MascotaDAO implements IMascota {
 
     @Override
     public int insertMascota(MascotaDTO mascota) throws SQLException {
-           int numFilas = 0;
+        int numFilas = 0;
         String sql = "insert into mascota values (?,?,?,?,?,?,?)";
 
         if (findByPk(mascota.getId_mascota()) != null) {
@@ -142,7 +142,7 @@ public class MascotaDAO implements IMascota {
                 prest.setInt(2, mascota.getNumchip());
                 prest.setString(3, mascota.getNommasc());
                 prest.setDouble(4, mascota.getPeso());
-                prest.setDate(5,Date.valueOf(mascota.getFecnacim()));
+                prest.setDate(5, Date.valueOf(mascota.getFecnacim()));
                 prest.setString(6, mascota.getTipo());
                 prest.setInt(7, mascota.getId_veterinario());
 
@@ -154,14 +154,52 @@ public class MascotaDAO implements IMascota {
 
     @Override
     public int deleteMascota(MascotaDTO mascota) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteMascota'");
+
+        int numFilas = 0;
+
+        String sql = "delete from mascota where id_mascota = ?";
+
+        try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+            prest.setInt(1, mascota.getId_mascota());
+
+            numFilas = prest.executeUpdate();
+        }
+
+        return numFilas;
     }
 
     @Override
     public int updateMascota(int id_mascota, MascotaDTO nuevosDatos) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateMascota'");
-    }
 
+        int numFilas = 0;
+
+        String sql = "update mascota set numchip = ?, nommasc = ?,  peso = ?, fecnacim = ?, tipo = ?, id_veterinario = ? where id_mascota = ?";
+
+        if (findByPk(id_mascota) == null) {
+
+            return numFilas;
+
+        } else {
+
+            try (PreparedStatement prest = con.prepareStatement(sql)) {
+
+                prest.setInt(1, nuevosDatos.getNumchip());
+                prest.setString(2, nuevosDatos.getNommasc());
+                prest.setDouble(3, nuevosDatos.getPeso());
+
+                // Conversión LocalDate -> Date
+                prest.setDate(4, Date.valueOf(nuevosDatos.getFecnacim()));
+
+                prest.setString(5, nuevosDatos.getTipo());
+                prest.setInt(6, nuevosDatos.getId_veterinario());
+
+                prest.setInt(7, id_mascota);
+
+                numFilas = prest.executeUpdate();
+            }
+
+            return numFilas;
+        }
+    }
 }
