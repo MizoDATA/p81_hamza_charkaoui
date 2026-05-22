@@ -5,14 +5,14 @@ import java.util.Scanner;
 
 public class Principal {
 
-    // ==================================
+   
     // SCANNER
-    // ==================================
+   
     static Scanner sc = new Scanner(System.in);
 
-    // ==================================
+   
     // MENÚS
-    // ==================================
+    
     static final String MENU_PRINCIPAL = """
             ========= MENÚ PRINCIPAL =========
             1. Operaciones con Mascotas
@@ -42,17 +42,17 @@ public class Principal {
             0. Volver
             """;
 
-    // ==================================
+  
     // MAIN
-    // ==================================
+   
     public static void main(String[] args) throws SQLException {
 
         int opcionPrincipal;
         int opcionSubmenu;
 
-        // ==================================
+     
         // BUCLE MENÚ PRINCIPAL
-        // ==================================
+   
         do {
 
             System.out.println(MENU_PRINCIPAL);
@@ -62,9 +62,8 @@ public class Principal {
 
             switch (opcionPrincipal) {
 
-            // ==================================
-            // MENÚ MASCOTAS
-            // ==================================
+           
+            // MENÚ MASCOTAS  
             case 1:
 
                 do {
@@ -116,9 +115,8 @@ public class Principal {
 
                 break;
 
-            // ==================================
+           
             // MENÚ VETERINARIOS
-            // ==================================
             case 2:
 
                 do {
@@ -167,7 +165,7 @@ public class Principal {
             // ==================================
             case 0:
 
-                System.out.println("Programa finalizado");
+                System.out.println("bye bye");
                 break;
 
             default:
@@ -176,6 +174,6 @@ public class Principal {
 
         } while (opcionPrincipal != 0);
 
-        sc.close();
+      
     }
 }
