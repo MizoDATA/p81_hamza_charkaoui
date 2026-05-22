@@ -77,30 +77,37 @@ public class Principal {
 
                     case 1:
                         // mostrar mascotas
+                        GestionMascotas.mostrarMascotas();
                         break;
 
                     case 2:
                         // buscar mascotas
+                        GestionMascotas.buscarMascota();
                         break;
 
                     case 3:
                         // insetrar mascota
+                        GestionMascotas.insertarMascota();
                         break;
 
                     case 4:
                        // modificar mascxotas
+                       GestionMascotas.modificarMascota();
                         break;
 
                     case 5:
                         // borrar mascota
+                        GestionMascotas.borrarMascota();
                         break;
 
                     case 6:
                        // mascotas de un veterinario
+                       GestionMascotas.mascotasDeVeterinario();
                         break;
 
                     case 7:
                         // asignar veterinario
+                        GestionMascotas.asignarVeterinario();
                         break;
 
                     case 0:
@@ -130,22 +137,27 @@ public class Principal {
 
                     case 1:
                         // mostrar veterinarios
+                        GestionVeterinarios.mostrarVeterinarios();
                         break;
 
                     case 2:
                         // buscar veterinario
+                        GestionVeterinarios.buscarVeterinario();
                         break;
 
                     case 3:
                         // insertar veterianrio
+                        GestionVeterinarios.insertarVeterinario();
                         break;
 
                     case 4:
                         // modificar veterinario
+                        GestionVeterinarios.modificarVeterinario();
                         break;
 
                     case 5:
                        // borrar veterinario
+                       GestionVeterinarios.borrarVeterinario();
                         break;
 
                     case 0:
