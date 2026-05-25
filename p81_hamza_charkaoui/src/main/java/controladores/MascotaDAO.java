@@ -144,7 +144,11 @@ public class MascotaDAO implements IMascota {
                 prest.setDouble(4, mascota.getPeso());
                 prest.setDate(5, Date.valueOf(mascota.getFecnacim()));
                 prest.setString(6, mascota.getTipo());
-                prest.setInt(7, mascota.getId_veterinario());
+                if (mascota.getId_veterinario() == 0) {
+                    prest.setNull(7, mascota.getId_veterinario());
+                }else{
+                    prest.setInt(7, mascota.getId_veterinario());
+                }
 
                 numFilas = prest.executeUpdate();
             }
@@ -192,8 +196,12 @@ public class MascotaDAO implements IMascota {
                 prest.setDate(4, Date.valueOf(nuevosDatos.getFecnacim()));
 
                 prest.setString(5, nuevosDatos.getTipo());
-                prest.setInt(6, nuevosDatos.getId_veterinario());
-
+                if (nuevosDatos.getId_veterinario() == 0) {
+                    prest.setNull(6, nuevosDatos.getId_veterinario());
+                }else{
+                    prest.setInt(6, nuevosDatos.getId_veterinario());
+                }
+                
                 prest.setInt(7, id_mascota);
 
                 numFilas = prest.executeUpdate();
