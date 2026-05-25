@@ -1,0 +1,12 @@
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/conexion/Conexion.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/controladores/MascotaDAO.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/controladores/VeterinarioDAO.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/daw/MainDePruebas.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/gui/VentanaPrincipal.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/modelos/IMascota.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/modelos/IVeterinario.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/modelos/MascotaDTO.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/modelos/VeterinarioDTO.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/vistas/GestionMascotas.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/vistas/GestionVeterinarios.java
+/home/usuario/Escritorio/prog/PROYECTOJPA/EJERCICIOS/p81_hamza_charkaoui/src/main/java/vistas/Principal.java
