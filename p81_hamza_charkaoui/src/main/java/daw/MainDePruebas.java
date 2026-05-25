@@ -12,7 +12,7 @@ import modelos.MascotaDTO;
 import modelos.VeterinarioDTO;
 
 public class MainDePruebas {
-    public static void main(String[] args) throws SQLException {
+   /* public static void main(String[] args) throws SQLException {
 
         VeterinarioDAO daoVeterinario = new VeterinarioDAO();
         List<VeterinarioDTO> listaVeterinarios = new ArrayList<>();
@@ -71,5 +71,5 @@ public class MainDePruebas {
         listaMascotas = daoMascota.getAll();
         listaMascotas.forEach(System.out::println);
 
-    }
+    }*/
 }

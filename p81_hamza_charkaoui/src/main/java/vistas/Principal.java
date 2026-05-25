@@ -45,7 +45,7 @@ public class Principal {
   
     // MAIN
    
-    public static void main(String[] args) throws SQLException {
+   public static void main(String[] args) throws SQLException {
 
         int opcionPrincipal;
         int opcionSubmenu;
