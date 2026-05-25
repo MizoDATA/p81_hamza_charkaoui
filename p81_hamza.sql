@@ -14,7 +14,7 @@ create table if not exists veterinario(
     email varchar(50),
     
     constraint pk_idveterinario primary key (id_veterinario)
-
+	
 );
 
 drop table if exists mascota;
@@ -26,10 +26,13 @@ create table if not exists mascota (
     peso decimal(6,2),
     fecnacim date,
     tipo enum('perro','gato','otros'),
-    id_veterinario int,
+    id_veterinario int null default null,
     
     constraint pk_idmascota primary key (id_mascota),
+    
     constraint fk_mascota_veterinario foreign key (id_veterinario) references veterinario(id_veterinario) 
+    on delete set null
+    
 );
 
 

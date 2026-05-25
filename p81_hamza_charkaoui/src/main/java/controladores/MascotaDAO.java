@@ -117,7 +117,7 @@ public class MascotaDAO implements IMascota {
                 mascota.setId_veterinario(res.getInt("id_veterinario"));
 
                 lista.add(mascota);
-            }
+            } 
         }
 
         return lista;
