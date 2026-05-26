@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import controladores.MascotaDAO;
+import controladores.VeterinarioDAO;
 import modelos.MascotaDTO;
 
 public class GestionMascotas {
 
     static Scanner sc = new Scanner(System.in);
     static MascotaDAO daoMascota = new MascotaDAO();
-
 
     // MOSTRAR
     public static void mostrarMascotas() throws SQLException {
@@ -33,7 +33,6 @@ public class GestionMascotas {
         System.out.println(mascota);
     }
 
-
     // INSERTAR
     public static void insertarMascota() throws SQLException {
 
@@ -43,7 +42,6 @@ public class GestionMascotas {
 
         System.out.println("Mascota insertada");
     }
-
 
     // MODIFICAR
     public static void modificarMascota() throws SQLException {
@@ -57,7 +55,6 @@ public class GestionMascotas {
 
         System.out.println("Mascota modificada");
     }
-
 
     // BORRAR
     public static void borrarMascota() throws SQLException {
@@ -90,17 +87,23 @@ public class GestionMascotas {
         int idMascota = sc.nextInt();
 
         MascotaDTO mascota = daoMascota.findByPk(idMascota);
+        VeterinarioDAO daoVet = new VeterinarioDAO();
 
         if (mascota != null) {
 
             System.out.print("ID del nuevo veterinario: ");
             int idVeterinario = sc.nextInt();
 
-            mascota.setId_veterinario(idVeterinario);
+            if (daoVet.getAll().contains(idVeterinario)) {
 
-            daoMascota.updateMascota(idMascota, mascota);
+                mascota.setId_veterinario(idVeterinario);
 
-            System.out.println("Veterinario asignado");
+                daoMascota.updateMascota(idMascota, mascota);
+
+                System.out.println("Veterinario asignado");
+            }else{
+                System.out.println("No existe el ID de ese veterinario");
+            }
 
         } else {
 
@@ -108,7 +111,6 @@ public class GestionMascotas {
         }
     }
 
-    
     // LEER MASCOTA
     public static MascotaDTO leerMascota() {
 
