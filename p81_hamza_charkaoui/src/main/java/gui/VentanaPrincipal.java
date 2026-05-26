@@ -9,7 +9,7 @@ package gui;
  * @author usuario
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
 
     /**
@@ -17,6 +17,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public VentanaPrincipal() {
         initComponents();
+         // centrar ventana
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -31,8 +33,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        gestionMascotas = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnGestionMascotas = new javax.swing.JButton();
+        btnGestionVeterinarios1 = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
@@ -48,29 +51,36 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel1.add(jLabel1);
         jLabel1.setBounds(290, 30, 403, 64);
 
-        gestionMascotas.setBackground(new java.awt.Color(0, 102, 102));
-        gestionMascotas.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        gestionMascotas.setText("GestionMascotas");
-        gestionMascotas.addActionListener(this::gestionMascotasActionPerformed);
-        jPanel1.add(gestionMascotas);
-        gestionMascotas.setBounds(510, 150, 190, 50);
+        btnGestionMascotas.setBackground(new java.awt.Color(0, 102, 102));
+        btnGestionMascotas.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        btnGestionMascotas.setText("GestionMascotas");
+        btnGestionMascotas.addActionListener(this::btnGestionMascotasActionPerformed);
+        jPanel1.add(btnGestionMascotas);
+        btnGestionMascotas.setBounds(510, 150, 200, 60);
 
-        jButton2.setBackground(new java.awt.Color(0, 102, 102));
-        jButton2.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButton2.setText("GestionVeterinarios");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-        jPanel1.add(jButton2);
-        jButton2.setBounds(510, 270, 190, 50);
+        btnGestionVeterinarios1.setBackground(new java.awt.Color(0, 102, 102));
+        btnGestionVeterinarios1.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        btnGestionVeterinarios1.setText("GestionVeterinarios");
+        btnGestionVeterinarios1.addActionListener(this::btnGestionVeterinarios1ActionPerformed);
+        jPanel1.add(btnGestionVeterinarios1);
+        btnGestionVeterinarios1.setBounds(510, 260, 200, 60);
+
+        btnSalir.setBackground(new java.awt.Color(102, 102, 0));
+        btnSalir.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
+        jPanel1.add(btnSalir);
+        btnSalir.setBounds(100, 180, 87, 28);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/veterinario.png"))); // NOI18N
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(-8, -3, 810, 420);
+        jLabel3.setBounds(0, 0, 840, 420);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 843, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,13 +90,33 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void gestionMascotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestionMascotasActionPerformed
+    private void btnGestionMascotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionMascotasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_gestionMascotasActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DialogMascotas gestionMascotas = new DialogMascotas(this, true);
+        // El boolean modal es true 
+        // para que no puedas toc
+        // para que se vea la ventana del JDialogar la ventana principal hasta cerrar el diálogo
+        gestionMascotas.setVisible(true);
+        // para que se vea la ventana del JDialog
+    }//GEN-LAST:event_btnGestionMascotasActionPerformed
+
+    private void btnGestionVeterinarios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionVeterinarios1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        
+         DialogVeterinarios gestionVeterinarios = new DialogVeterinarios(this, true);
+        // El boolean modal es true 
+        // para que no puedas toc
+        // para que se vea la ventana del JDialogar la ventana principal hasta cerrar el diálogo
+        gestionVeterinarios.setVisible(true);
+        // para que se vea la ventana del JDialog
+    }//GEN-LAST:event_btnGestionVeterinarios1ActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+        // esto sirve para cerrar programa
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,8 +144,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton gestionMascotas;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnGestionMascotas;
+    private javax.swing.JButton btnGestionVeterinarios1;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
