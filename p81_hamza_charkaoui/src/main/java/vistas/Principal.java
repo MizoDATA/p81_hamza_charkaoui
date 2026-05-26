@@ -52,7 +52,6 @@ public class Principal {
 
      
         // BUCLE MENÚ PRINCIPAL
-   
         do {
 
             System.out.println(MENU_PRINCIPAL);
