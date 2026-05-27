@@ -9,7 +9,7 @@ package gui;
  * @author usuario
  */
 public class DialogMascotas extends javax.swing.JDialog {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogMascotas.class.getName());
 
     /**
@@ -18,7 +18,7 @@ public class DialogMascotas extends javax.swing.JDialog {
     public DialogMascotas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-         // centrar ventana
+        // centrar ventana
         setLocationRelativeTo(null);
     }
 
@@ -102,19 +102,26 @@ public class DialogMascotas extends javax.swing.JDialog {
 
     private void btnMostrarMascotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarMascotasActionPerformed
         // TODO add your handling code here:
+        DialogMostrarMascotas dialogo
+                = new DialogMostrarMascotas(null, true);
+
+        dialogo.setVisible(true);
     }//GEN-LAST:event_btnMostrarMascotasActionPerformed
 
     private void btnInsertarMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarMascotaActionPerformed
         // TODO add your handling code here:
+        DialogInsertarMascota dialogo
+                = new DialogInsertarMascota(null, true);
+
+        dialogo.setVisible(true);
     }//GEN-LAST:event_btnInsertarMascotaActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-         this.dispose();
+        this.dispose();
         // esto cierra solo el JDialog, así vuelvo a la ventana principal
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAsignarVeterinario;

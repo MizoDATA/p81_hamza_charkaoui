@@ -4,35 +4,30 @@
  */
 package gui;
 
-import controladores.VeterinarioDAO;
-import java.sql.SQLException;
+import controladores.MascotaDAO;
+import modelos.MascotaDTO;
 import java.util.List;
+import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
-import modelos.VeterinarioDTO;
 
 /**
  *
  * @author hzdat
  */
-public class DialogMostrarVeterinarios extends javax.swing.JDialog {
+public class DialogMostrarMascotas extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogMostrarVeterinarios.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogMostrarMascotas.class.getName());
 
     /**
-     * Creates new form DialogMostrarVeterinarios
+     * Creates new form DialogMostrarMascotas
      */
-    public DialogMostrarVeterinarios(java.awt.Frame parent, boolean modal) {
-
-        // Constructor del padre
+    public DialogMostrarMascotas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
 
-        // Inicializar componentes
         initComponents();
 
-        // Centrar ventana
         setLocationRelativeTo(null);
 
-        // Cargar datos en JTable
         cargarTabla();
     }
 
@@ -47,14 +42,14 @@ public class DialogMostrarVeterinarios extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaVeterinarios = new javax.swing.JTable();
+        tablaMascotas = new javax.swing.JTable();
         btnCerrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
-        tablaVeterinarios.setModel(new javax.swing.table.DefaultTableModel(
+        tablaMascotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -65,7 +60,7 @@ public class DialogMostrarVeterinarios extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tablaVeterinarios);
+        jScrollPane1.setViewportView(tablaMascotas);
 
         btnCerrar.setText("CERRAR");
         btnCerrar.addActionListener(this::btnCerrarActionPerformed);
@@ -74,19 +69,19 @@ public class DialogMostrarVeterinarios extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(205, 205, 205)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCerrar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(225, 225, 225))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCerrar)
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(0, 23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -105,56 +100,52 @@ public class DialogMostrarVeterinarios extends javax.swing.JDialog {
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         // TODO add your handling code here:
-        // Cerrar diálogo
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-
-    // MÉTODO PARA CARGAR LOS DATOS EN LA TABLA
     private void cargarTabla() {
 
         try {
 
-            // Crear objeto DAO
-            VeterinarioDAO dao = new VeterinarioDAO();
+            // crear dao
+            MascotaDAO dao = new MascotaDAO();
 
-            // Obtener lista de veterinarios desde la BD
-            List<VeterinarioDTO> lista = dao.getAll();
+            // obtener lista
+            List<MascotaDTO> lista = dao.getAll();
 
-            // Crear modelo para la JTable
+            // crear modelo
             DefaultTableModel modelo = new DefaultTableModel();
 
-            // Añadir nombres de columnas
+            // columnas
             modelo.addColumn("ID");
-            modelo.addColumn("NIF");
+            modelo.addColumn("CHIP");
             modelo.addColumn("NOMBRE");
-            modelo.addColumn("DIRECCIÓN");
-            modelo.addColumn("TELÉFONO");
-            modelo.addColumn("EMAIL");
+            modelo.addColumn("PESO");
+            modelo.addColumn("FECHA");
+            modelo.addColumn("TIPO");
+            modelo.addColumn("ID VETERINARIO");
 
-            // Recorrer lista de veterinarios
-            for (VeterinarioDTO v : lista) {
+            // recorrer lista
+            for (MascotaDTO m : lista) {
 
-                // Crear array con datos de una fila
                 Object[] fila = {
-                    v.getId_veterinario(),
-                    v.getNif(),
-                    v.getNomvete(),
-                    v.getDir(),
-                    v.getTelefono(),
-                    v.getEmail()
+                    m.getId_mascota(),
+                    m.getNumchip(),
+                    m.getNommasc(),
+                    m.getPeso(),
+                    m.getFecnacim(),
+                    m.getTipo(),
+                    m.getId_veterinario()
                 };
 
-                // Añadir fila al modelo
                 modelo.addRow(fila);
             }
 
-            // Asignar modelo a la tabla
-            tablaVeterinarios.setModel(modelo);
+            // asignar tabla
+            tablaMascotas.setModel(modelo);
 
         } catch (SQLException e) {
 
-            // Mostrar error por consola
             e.printStackTrace();
         }
     }
@@ -163,6 +154,6 @@ public class DialogMostrarVeterinarios extends javax.swing.JDialog {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaVeterinarios;
+    private javax.swing.JTable tablaMascotas;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,14 +6,14 @@ public class MascotaDTO {
 
 
     private int id_mascota;
-    private int numchip;
+    private Integer numchip;
     private String nommasc;
-    private double peso;
+    private Double peso;
     private LocalDate fecnacim;
     private String tipo;
     private Integer id_veterinario;
     
-    public MascotaDTO(int id_mascota, int numchip, String nommasc, double peso, LocalDate fecnacim, String tipo,
+    public MascotaDTO(int id_mascota, Integer numchip, String nommasc, Double peso, LocalDate fecnacim, String tipo,
             Integer id_veterinario) {
         this.id_mascota = id_mascota;
         this.numchip = numchip;
@@ -35,11 +35,11 @@ public class MascotaDTO {
         this.id_mascota = id_mascota;
     }
 
-    public int getNumchip() {
+    public Integer getNumchip() {
         return numchip;
     }
 
-    public void setNumchip(int numchip) {
+    public void setNumchip(Integer numchip) {
         this.numchip = numchip;
     }
 
@@ -51,11 +51,11 @@ public class MascotaDTO {
         this.nommasc = nommasc;
     }
 
-    public double getPeso() {
+    public Double getPeso() {
         return peso;
     }
 
-    public void setPeso(double peso) {
+    public void setPeso(Double peso) {
         this.peso = peso;
     }
 

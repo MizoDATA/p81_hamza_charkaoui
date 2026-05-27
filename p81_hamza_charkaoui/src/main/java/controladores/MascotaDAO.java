@@ -117,7 +117,7 @@ public class MascotaDAO implements IMascota {
                 mascota.setId_veterinario(res.getInt("id_veterinario"));
 
                 lista.add(mascota);
-            } 
+            }
         }
 
         return lista;
@@ -144,9 +144,9 @@ public class MascotaDAO implements IMascota {
                 prest.setDouble(4, mascota.getPeso());
                 prest.setDate(5, Date.valueOf(mascota.getFecnacim()));
                 prest.setString(6, mascota.getTipo());
-                if (mascota.getId_veterinario() == 0) {
-                    prest.setNull(7, mascota.getId_veterinario());
-                }else{
+                if (mascota.getId_veterinario() == null) {
+                    prest.setNull(7, java.sql.Types.INTEGER);
+                } else {
                     prest.setInt(7, mascota.getId_veterinario());
                 }
 
@@ -198,10 +198,10 @@ public class MascotaDAO implements IMascota {
                 prest.setString(5, nuevosDatos.getTipo());
                 if (nuevosDatos.getId_veterinario() == 0) {
                     prest.setNull(6, nuevosDatos.getId_veterinario());
-                }else{
+                } else {
                     prest.setInt(6, nuevosDatos.getId_veterinario());
                 }
-                
+
                 prest.setInt(7, id_mascota);
 
                 numFilas = prest.executeUpdate();
