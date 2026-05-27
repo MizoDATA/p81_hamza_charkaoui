@@ -39,8 +39,13 @@ public class MascotaDAO implements IMascota {
                 mascota.setNommasc(res.getString("nommasc"));
                 mascota.setPeso(res.getDouble("peso"));
 
-                // Conversión Date -> LocalDate
-                mascota.setFecnacim(res.getDate("fecnacim").toLocalDate());
+                java.sql.Date fechaSQL = res.getDate("fecnacim");
+
+                if (fechaSQL != null) {
+                    mascota.setFecnacim(fechaSQL.toLocalDate());
+                } else {
+                    mascota.setFecnacim(null);
+                }
 
                 mascota.setTipo(res.getString("tipo"));
                 mascota.setId_veterinario(res.getInt("id_veterinario"));
@@ -139,10 +144,22 @@ public class MascotaDAO implements IMascota {
 
                 // Establecemos los parámetros de la sentencia
                 prest.setInt(1, mascota.getId_mascota());
-                prest.setInt(2, mascota.getNumchip());
+                if (mascota.getNumchip() == null) {
+                    prest.setNull(2, java.sql.Types.INTEGER);
+                } else {
+                    prest.setInt(2, mascota.getNumchip());
+                }
                 prest.setString(3, mascota.getNommasc());
-                prest.setDouble(4, mascota.getPeso());
-                prest.setDate(5, Date.valueOf(mascota.getFecnacim()));
+                if (mascota.getPeso() == null) {
+                    prest.setNull(4, java.sql.Types.DOUBLE);
+                } else {
+                    prest.setDouble(4, mascota.getPeso());
+                }
+                if (mascota.getFecnacim() == null) {
+                    prest.setNull(5, java.sql.Types.DATE);
+                } else {
+                    prest.setDate(5, java.sql.Date.valueOf(mascota.getFecnacim()));
+                }
                 prest.setString(6, mascota.getTipo());
                 if (mascota.getId_veterinario() == null) {
                     prest.setNull(7, java.sql.Types.INTEGER);
@@ -188,18 +205,30 @@ public class MascotaDAO implements IMascota {
 
             try (PreparedStatement prest = con.prepareStatement(sql)) {
 
-                prest.setInt(1, nuevosDatos.getNumchip());
+                if (nuevosDatos.getNumchip() == null) {
+                    prest.setNull(2, java.sql.Types.INTEGER);
+                } else {
+                    prest.setInt(2, nuevosDatos.getNumchip());
+                }
                 prest.setString(2, nuevosDatos.getNommasc());
-                prest.setDouble(3, nuevosDatos.getPeso());
+                if (nuevosDatos.getPeso() == null) {
+                    prest.setNull(4, java.sql.Types.DOUBLE);
+                } else {
+                    prest.setDouble(4, nuevosDatos.getPeso());
+                }
 
                 // Conversión LocalDate -> Date
-                prest.setDate(4, Date.valueOf(nuevosDatos.getFecnacim()));
+                if (nuevosDatos.getFecnacim() == null) {
+                    prest.setNull(5, java.sql.Types.DATE);
+                } else {
+                    prest.setDate(5, java.sql.Date.valueOf(nuevosDatos.getFecnacim()));
+                }
 
                 prest.setString(5, nuevosDatos.getTipo());
-                if (nuevosDatos.getId_veterinario() == 0) {
-                    prest.setNull(6, nuevosDatos.getId_veterinario());
+                if (nuevosDatos.getId_veterinario() == null) {
+                    prest.setNull(7, java.sql.Types.INTEGER);
                 } else {
-                    prest.setInt(6, nuevosDatos.getId_veterinario());
+                    prest.setInt(7, nuevosDatos.getId_veterinario());
                 }
 
                 prest.setInt(7, id_mascota);
