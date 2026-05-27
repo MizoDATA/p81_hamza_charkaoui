@@ -5,25 +5,62 @@
 package gui;
 
 import controladores.MascotaDAO;
-import modelos.MascotaDTO;
-import javax.swing.JOptionPane;
 import java.time.LocalDate;
-import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import modelos.MascotaDTO;
 
 /**
  *
  * @author hzdat
  */
-public class DialogInsertarMascota extends javax.swing.JDialog {
+public class DialogModificarMascota extends javax.swing.JDialog {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogInsertarMascota.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogModificarMascota.class.getName());
+
+    private int idMascota;
 
     /**
-     * Creates new form DialogInsertarMascota
+     * Creates new form DialogModificarMascota
      */
-    public DialogInsertarMascota(java.awt.Frame parent, boolean modal) {
+    public DialogModificarMascota(java.awt.Frame parent, boolean modal, int idMascota) {
+
         super(parent, modal);
+
         initComponents();
+
+        setLocationRelativeTo(null);
+
+        this.idMascota = idMascota;
+
+        cargarDatos();
+    }
+
+    private void cargarDatos() {
+
+        try {
+
+            MascotaDAO dao = new MascotaDAO();
+
+            MascotaDTO m = dao.findByPk(idMascota);
+
+            if (m != null) {
+
+                txtId.setText(String.valueOf(m.getId_mascota()));
+                txtId.setEditable(false);
+
+                txtChip.setText(m.getNumchip() == null ? "" : String.valueOf(m.getNumchip()));
+                txtNombre.setText(m.getNommasc());
+                txtPeso.setText(m.getPeso() == null ? "" : String.valueOf(m.getPeso()));
+                txtFecha.setText(m.getFecnacim() == null ? "" : m.getFecnacim().toString());
+                txtTipo.setText(m.getTipo());
+            }
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(this, "Error al cargar");
+
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -104,7 +141,7 @@ public class DialogInsertarMascota extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,65 +158,56 @@ public class DialogInsertarMascota extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+         try {
 
-        try {
+        int id = Integer.parseInt(txtId.getText());
 
-            // id (obligatorio)
-            int id = Integer.parseInt(txtId.getText());
+        Integer chip = txtChip.getText().isEmpty() 
+                ? null 
+                : Integer.parseInt(txtChip.getText());
 
-            // chip (puede ser null)
-            Integer chip = txtChip.getText().isEmpty() ? null : Integer.parseInt(txtChip.getText());
+        String nombre = txtNombre.getText().isEmpty() 
+                ? null 
+                : txtNombre.getText();
 
-            // nombre
-            String nombre = txtNombre.getText().isEmpty() ? null : txtNombre.getText();
+        Double peso = txtPeso.getText().isEmpty() 
+                ? null 
+                : Double.parseDouble(txtPeso.getText());
 
-            // peso (puede ser null)
-            Double peso = txtPeso.getText().isEmpty() ? null : Double.parseDouble(txtPeso.getText());
+        java.time.LocalDate fecha = txtFecha.getText().isEmpty()
+                ? null
+                : java.time.LocalDate.parse(txtFecha.getText());
 
-            // fecha (puede ser null)
-            LocalDate fecha = txtFecha.getText().isEmpty() ? null : LocalDate.parse(txtFecha.getText());
+        String tipo = txtTipo.getText().isEmpty() 
+                ? null 
+                : txtTipo.getText();
 
-            // tipo
-            String tipo = txtTipo.getText().isEmpty() ? null : txtTipo.getText();
+        MascotaDTO m = new MascotaDTO(
+                id,
+                chip,
+                nombre,
+                peso,
+                fecha,
+                tipo,
+                null // no tocamos veterinario aquí
+        );
 
-            // crear objeto SIN veterinario
-            MascotaDTO m = new MascotaDTO(
-                    id,
-                    chip,
-                    nombre,
-                    peso,
-                    fecha,
-                    tipo,
-                    null //  veterinario null
-            );
+        MascotaDAO dao = new MascotaDAO();
 
-            MascotaDAO dao = new MascotaDAO();
+        dao.updateMascota(id, m);
 
-            int filas = dao.insertMascota(m);
+        JOptionPane.showMessageDialog(this, "Modificado correctamente");
 
-            if (filas > 0) {
-                JOptionPane.showMessageDialog(this,
-                        "Mascota insertada correctamente");
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "No se pudo insertar");
-            }
+    } catch (Exception e) {
 
-        } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error al modificar");
 
-            JOptionPane.showMessageDialog(this,
-                    "Error en algun campo numerico numéricos");
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Error al insertar");
-
-            e.printStackTrace();
-        }
+        e.printStackTrace();
+    }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;

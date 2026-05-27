@@ -1,7 +1,12 @@
 gui\DialogVeterinarios.class
 gui\DialogMascotas.class
+gui\DialogAsignarVeterinario$1.class
 gui\DialogMostrarMascotas.class
+gui\DialogAsignarVeterinario$1$1.class
 gui\DialogModificarVeterinario.class
+gui\DialogAsignarVeterinario.class
+gui\DialogModificarMascota.class
 gui\DialogMostrarVeterinarios.class
+gui\DialogMascotasDeVeterinario.class
 gui\DialogInsertarMascota.class
 gui\DialogInsertarVeterinario.class

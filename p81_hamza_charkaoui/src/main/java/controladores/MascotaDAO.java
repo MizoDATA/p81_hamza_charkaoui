@@ -18,38 +18,53 @@ public class MascotaDAO implements IMascota {
     private Connection con = null;
 
     public MascotaDAO() {
+        // obtener conexión a la BD
         con = Conexion.getInstance();
     }
 
     @Override
     public List<MascotaDTO> getAll() throws SQLException {
 
+        // lista donde guardo mascotas
         List<MascotaDTO> lista = new ArrayList<>();
 
+        // crear statement
         try (Statement st = con.createStatement()) {
 
+            // ejecutar consulta
             ResultSet res = st.executeQuery("select * from mascota");
 
+            // recorrer resultados
             while (res.next()) {
 
                 MascotaDTO mascota = new MascotaDTO();
 
+                // id
                 mascota.setId_mascota(res.getInt("id_mascota"));
-                mascota.setNumchip(res.getInt("numchip"));
+
+                // chip (puede ser null)
+                int chip = res.getInt("numchip");
+                mascota.setNumchip(res.wasNull() ? null : chip);
+
+                // nombre
                 mascota.setNommasc(res.getString("nommasc"));
-                mascota.setPeso(res.getDouble("peso"));
 
+                // peso (puede ser null)
+                double peso = res.getDouble("peso");
+                mascota.setPeso(res.wasNull() ? null : peso);
+
+                // fecha (puede ser null)
                 java.sql.Date fechaSQL = res.getDate("fecnacim");
+                mascota.setFecnacim(fechaSQL != null ? fechaSQL.toLocalDate() : null);
 
-                if (fechaSQL != null) {
-                    mascota.setFecnacim(fechaSQL.toLocalDate());
-                } else {
-                    mascota.setFecnacim(null);
-                }
-
+                // tipo
                 mascota.setTipo(res.getString("tipo"));
-                mascota.setId_veterinario(res.getInt("id_veterinario"));
 
+                // id veterinario (puede ser null)
+                int idVet = res.getInt("id_veterinario");
+                mascota.setId_veterinario(res.wasNull() ? null : idVet);
+
+                // añadir a lista
                 lista.add(mascota);
             }
         }
@@ -68,6 +83,7 @@ public class MascotaDAO implements IMascota {
 
         try (PreparedStatement prest = con.prepareStatement(sql)) {
 
+            // pasar parámetro
             prest.setInt(1, id_mascota);
 
             res = prest.executeQuery();
@@ -75,15 +91,26 @@ public class MascotaDAO implements IMascota {
             if (res.next()) {
 
                 mascota.setId_mascota(res.getInt("id_mascota"));
-                mascota.setNumchip(res.getInt("numchip"));
-                mascota.setNommasc(res.getString("nommasc"));
-                mascota.setPeso(res.getDouble("peso"));
 
-                // Conversión Date -> LocalDate
-                mascota.setFecnacim(res.getDate("fecnacim").toLocalDate());
+                // chip puede ser null
+                int chip = res.getInt("numchip");
+                mascota.setNumchip(res.wasNull() ? null : chip);
+
+                mascota.setNommasc(res.getString("nommasc"));
+
+                // peso puede ser null
+                double peso = res.getDouble("peso");
+                mascota.setPeso(res.wasNull() ? null : peso);
+
+                // fecha puede ser null
+                java.sql.Date fechaSQL = res.getDate("fecnacim");
+                mascota.setFecnacim(fechaSQL != null ? fechaSQL.toLocalDate() : null);
 
                 mascota.setTipo(res.getString("tipo"));
-                mascota.setId_veterinario(res.getInt("id_veterinario"));
+
+                // id veterinario puede ser null
+                int idVet = res.getInt("id_veterinario");
+                mascota.setId_veterinario(res.wasNull() ? null : idVet);
 
                 return mascota;
             }
@@ -95,7 +122,6 @@ public class MascotaDAO implements IMascota {
     @Override
     public List<MascotaDTO> mascotasDeUnVeterinario(int id_veterinario) throws SQLException {
 
-        // lo mismo que arriba pero where id_veterinario xd
         List<MascotaDTO> lista = new ArrayList<>();
 
         String sql = "select * from mascota where id_veterinario = ?";
@@ -111,15 +137,23 @@ public class MascotaDAO implements IMascota {
                 MascotaDTO mascota = new MascotaDTO();
 
                 mascota.setId_mascota(res.getInt("id_mascota"));
-                mascota.setNumchip(res.getInt("numchip"));
-                mascota.setNommasc(res.getString("nommasc"));
-                mascota.setPeso(res.getDouble("peso"));
 
-                // Conversión Date -> LocalDate
-                mascota.setFecnacim(res.getDate("fecnacim").toLocalDate());
+                int chip = res.getInt("numchip");
+                mascota.setNumchip(res.wasNull() ? null : chip);
+
+                mascota.setNommasc(res.getString("nommasc"));
+
+                double peso = res.getDouble("peso");
+                mascota.setPeso(res.wasNull() ? null : peso);
+
+                // fecha null control
+                java.sql.Date fechaSQL = res.getDate("fecnacim");
+                mascota.setFecnacim(fechaSQL != null ? fechaSQL.toLocalDate() : null);
 
                 mascota.setTipo(res.getString("tipo"));
-                mascota.setId_veterinario(res.getInt("id_veterinario"));
+
+                int idVet = res.getInt("id_veterinario");
+                mascota.setId_veterinario(res.wasNull() ? null : idVet);
 
                 lista.add(mascota);
             }
@@ -130,37 +164,49 @@ public class MascotaDAO implements IMascota {
 
     @Override
     public int insertMascota(MascotaDTO mascota) throws SQLException {
+
         int numFilas = 0;
+
         String sql = "insert into mascota values (?,?,?,?,?,?,?)";
 
+        // comprobar si ya existe
         if (findByPk(mascota.getId_mascota()) != null) {
-            // Existe un registro con esa pk
-            // No se hace la inserción
             return numFilas;
         } else {
-            // Instanciamos el objeto PreparedStatement para inserción
-            // de datos. Sentencia parametrizada
+
             try (PreparedStatement prest = con.prepareStatement(sql)) {
 
-                // Establecemos los parámetros de la sentencia
+                // id
                 prest.setInt(1, mascota.getId_mascota());
+
+                // chip null control
                 if (mascota.getNumchip() == null) {
                     prest.setNull(2, java.sql.Types.INTEGER);
                 } else {
                     prest.setInt(2, mascota.getNumchip());
                 }
+
+                // nombre
                 prest.setString(3, mascota.getNommasc());
+
+                // peso null control
                 if (mascota.getPeso() == null) {
                     prest.setNull(4, java.sql.Types.DOUBLE);
                 } else {
                     prest.setDouble(4, mascota.getPeso());
                 }
+
+                // fecha null control
                 if (mascota.getFecnacim() == null) {
                     prest.setNull(5, java.sql.Types.DATE);
                 } else {
                     prest.setDate(5, java.sql.Date.valueOf(mascota.getFecnacim()));
                 }
+
+                // tipo
                 prest.setString(6, mascota.getTipo());
+
+                // veterinario null control
                 if (mascota.getId_veterinario() == null) {
                     prest.setNull(7, java.sql.Types.INTEGER);
                 } else {
@@ -169,6 +215,7 @@ public class MascotaDAO implements IMascota {
 
                 numFilas = prest.executeUpdate();
             }
+
             return numFilas;
         }
     }
@@ -195,42 +242,50 @@ public class MascotaDAO implements IMascota {
 
         int numFilas = 0;
 
-        String sql = "update mascota set numchip = ?, nommasc = ?,  peso = ?, fecnacim = ?, tipo = ?, id_veterinario = ? where id_mascota = ?";
+        String sql = "update mascota set numchip = ?, nommasc = ?, peso = ?, fecnacim = ?, tipo = ?, id_veterinario = ? where id_mascota = ?";
 
+        // comprobar que existe
         if (findByPk(id_mascota) == null) {
-
             return numFilas;
-
         } else {
 
             try (PreparedStatement prest = con.prepareStatement(sql)) {
 
+                // chip
                 if (nuevosDatos.getNumchip() == null) {
-                    prest.setNull(2, java.sql.Types.INTEGER);
+                    prest.setNull(1, java.sql.Types.INTEGER);
                 } else {
-                    prest.setInt(2, nuevosDatos.getNumchip());
+                    prest.setInt(1, nuevosDatos.getNumchip());
                 }
+
+                // nombre
                 prest.setString(2, nuevosDatos.getNommasc());
+
+                // peso
                 if (nuevosDatos.getPeso() == null) {
-                    prest.setNull(4, java.sql.Types.DOUBLE);
+                    prest.setNull(3, java.sql.Types.DOUBLE);
                 } else {
-                    prest.setDouble(4, nuevosDatos.getPeso());
+                    prest.setDouble(3, nuevosDatos.getPeso());
                 }
 
-                // Conversión LocalDate -> Date
+                // fecha
                 if (nuevosDatos.getFecnacim() == null) {
-                    prest.setNull(5, java.sql.Types.DATE);
+                    prest.setNull(4, java.sql.Types.DATE);
                 } else {
-                    prest.setDate(5, java.sql.Date.valueOf(nuevosDatos.getFecnacim()));
+                    prest.setDate(4, java.sql.Date.valueOf(nuevosDatos.getFecnacim()));
                 }
 
+                // tipo
                 prest.setString(5, nuevosDatos.getTipo());
+
+                // veterinario
                 if (nuevosDatos.getId_veterinario() == null) {
-                    prest.setNull(7, java.sql.Types.INTEGER);
+                    prest.setNull(6, java.sql.Types.INTEGER);
                 } else {
-                    prest.setInt(7, nuevosDatos.getId_veterinario());
+                    prest.setInt(6, nuevosDatos.getId_veterinario());
                 }
 
+                // id where
                 prest.setInt(7, id_mascota);
 
                 numFilas = prest.executeUpdate();

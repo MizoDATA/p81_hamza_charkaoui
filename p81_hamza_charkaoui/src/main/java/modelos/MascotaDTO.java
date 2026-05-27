@@ -79,7 +79,7 @@ public class MascotaDTO {
         return id_veterinario;
     }
 
-    public void setId_veterinario(int id_veterinario) {
+    public void setId_veterinario(Integer id_veterinario) {
         this.id_veterinario = id_veterinario;
     }
 

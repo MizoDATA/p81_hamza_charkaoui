@@ -4,6 +4,8 @@
  */
 package gui;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author usuario
@@ -54,6 +56,7 @@ public class DialogMascotas extends javax.swing.JDialog {
 
         btnBuscarUnaMascota.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnBuscarUnaMascota.setText("BUSCAR UNA MASCOTA");
+        btnBuscarUnaMascota.addActionListener(this::btnBuscarUnaMascotaActionPerformed);
         jPanel1.add(btnBuscarUnaMascota, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 210, 50));
 
         btnInsertarMascota.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
@@ -63,18 +66,22 @@ public class DialogMascotas extends javax.swing.JDialog {
 
         btnModificarMascota.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnModificarMascota.setText("MODIFICAR MASCOTA");
+        btnModificarMascota.addActionListener(this::btnModificarMascotaActionPerformed);
         jPanel1.add(btnModificarMascota, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, 210, 50));
 
         btnBorrarMascota.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnBorrarMascota.setText("BORRAR MASCOTA");
+        btnBorrarMascota.addActionListener(this::btnBorrarMascotaActionPerformed);
         jPanel1.add(btnBorrarMascota, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 390, 210, 60));
 
         btnMascotasDeUnVet.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnMascotasDeUnVet.setText("MASCOTAS DE UN VETERINARIO");
+        btnMascotasDeUnVet.addActionListener(this::btnMascotasDeUnVetActionPerformed);
         jPanel1.add(btnMascotasDeUnVet, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 500, 280, 60));
 
         btnAsignarVeterinario.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnAsignarVeterinario.setText("ASIGNAR VETERINARIO");
+        btnAsignarVeterinario.addActionListener(this::btnAsignarVeterinarioActionPerformed);
         jPanel1.add(btnAsignarVeterinario, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 610, 230, 60));
 
         btnVolver.setBackground(new java.awt.Color(0, 102, 102));
@@ -121,6 +128,163 @@ public class DialogMascotas extends javax.swing.JDialog {
         this.dispose();
         // esto cierra solo el JDialog, así vuelvo a la ventana principal
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnBuscarUnaMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarUnaMascotaActionPerformed
+        // TODO add your handling code here:
+
+        try {
+
+            // pedir id
+            String input = JOptionPane.showInputDialog(this,
+                    "Introduce ID de la mascota");
+
+            if (input == null) {
+                return;
+            }
+
+            int id = Integer.parseInt(input);
+
+            // dao
+            controladores.MascotaDAO dao = new controladores.MascotaDAO();
+
+            // buscar
+            modelos.MascotaDTO m = dao.findByPk(id);
+
+            if (m == null) {
+
+                JOptionPane.showMessageDialog(this,
+                        "Mascota no encontrada");
+
+            } else {
+
+                JOptionPane.showMessageDialog(this,
+                        "ID: " + m.getId_mascota()
+                        + "\nChip: " + m.getNumchip()
+                        + "\nNombre: " + m.getNommasc()
+                        + "\nPeso: " + m.getPeso()
+                        + "\nFecha: " + m.getFecnacim()
+                        + "\nTipo: " + m.getTipo()
+                        + "\nID Veterinario: " + m.getId_veterinario());
+            }
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(this,
+                    "El ID debe ser numérico");
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Error al buscar");
+
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_btnBuscarUnaMascotaActionPerformed
+
+    private void btnBorrarMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarMascotaActionPerformed
+        // TODO add your handling code here:
+
+        try {
+
+            // pedir id
+            String input = JOptionPane.showInputDialog(this,
+                    "Introduce ID de la mascota a borrar");
+
+            if (input == null) {
+                return;
+            }
+
+            int id = Integer.parseInt(input);
+
+            // dao
+            controladores.MascotaDAO dao = new controladores.MascotaDAO();
+
+            // buscar
+            modelos.MascotaDTO m = dao.findByPk(id);
+
+            if (m == null) {
+
+                JOptionPane.showMessageDialog(this,
+                        "Mascota no encontrada");
+                return;
+            }
+
+            // confirmar
+            int opcion = JOptionPane.showConfirmDialog(this,
+                    "¿Seguro que quieres borrar la mascota?",
+                    "Confirmar",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (opcion != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            // borrar
+            dao.deleteMascota(m);
+
+            JOptionPane.showMessageDialog(this,
+                    "Mascota borrada correctamente");
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(this,
+                    "El ID debe ser numérico");
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Error al borrar");
+
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_btnBorrarMascotaActionPerformed
+
+    private void btnMascotasDeUnVetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMascotasDeUnVetActionPerformed
+        // TODO add your handling code here:
+        String input = JOptionPane.showInputDialog(this,
+                "Introduce ID del veterinario");
+
+        if (input == null) {
+            return;
+        }
+
+        int idVet = Integer.parseInt(input);
+
+        DialogMascotasDeVeterinario dialogo
+                = new DialogMascotasDeVeterinario(null, true, idVet);
+
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_btnMascotasDeUnVetActionPerformed
+
+    private void btnAsignarVeterinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarVeterinarioActionPerformed
+        // TODO add your handling code here:
+        // crear diálogo
+        DialogAsignarVeterinario dialogo
+                = new DialogAsignarVeterinario(null, true);
+
+        // mostrarlo
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_btnAsignarVeterinarioActionPerformed
+
+    private void btnModificarMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarMascotaActionPerformed
+        // TODO add your handling code here:
+
+        String input = JOptionPane.showInputDialog(this,
+                "Introduce ID de la mascota");
+
+        if (input == null) {
+            return;
+        }
+
+        int id = Integer.parseInt(input);
+
+        DialogModificarMascota dialogo
+                = new DialogModificarMascota(null, true, id);
+
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_btnModificarMascotaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
