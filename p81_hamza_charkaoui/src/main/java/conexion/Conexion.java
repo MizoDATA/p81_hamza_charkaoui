@@ -16,7 +16,7 @@ public class Conexion {
     // tu servidor y usuario de conexión
     private static final String SERVIDOR = "jdbc:mysql://localhost/";
     private static final String NOMBRE_BASE_DATOS = "p81_hamza";
-    private static final String USER = "hamzaPROG";
+    private static final String USER = "root";
     private static final String PASS = "1234";
 
     private static Connection instancia = null;

@@ -1,2 +1,5 @@
-gui/DialogMascotas.class
-gui/DialogVeterinarios.class
+gui\DialogVeterinarios.class
+gui\DialogMascotas.class
+gui\DialogModificarVeterinario.class
+gui\DialogMostrarVeterinarios.class
+gui\DialogInsertarVeterinario.class

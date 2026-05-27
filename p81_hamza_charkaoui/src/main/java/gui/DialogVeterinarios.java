@@ -4,12 +4,14 @@
  */
 package gui;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author usuario
  */
 public class DialogVeterinarios extends javax.swing.JDialog {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DialogVeterinarios.class.getName());
 
     /**
@@ -18,8 +20,8 @@ public class DialogVeterinarios extends javax.swing.JDialog {
     public DialogVeterinarios(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-         // centrar ventana
+
+        // centrar ventana
         setLocationRelativeTo(null);
     }
 
@@ -54,6 +56,7 @@ public class DialogVeterinarios extends javax.swing.JDialog {
 
         btnMostrarVeterinarios1.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnMostrarVeterinarios1.setText("MOSTRAR VETERINARIOS");
+        btnMostrarVeterinarios1.addActionListener(this::btnMostrarVeterinarios1ActionPerformed);
         jPanel1.add(btnMostrarVeterinarios1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 230, -1));
 
         btnBuscarVeterinario.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
@@ -63,14 +66,17 @@ public class DialogVeterinarios extends javax.swing.JDialog {
 
         btnInsertarVeterinario.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnInsertarVeterinario.setText("INSERTAR VETERINARIO");
+        btnInsertarVeterinario.addActionListener(this::btnInsertarVeterinarioActionPerformed);
         jPanel1.add(btnInsertarVeterinario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 230, -1));
 
         btnModificarVeterinario.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnModificarVeterinario.setText("MODIFICAR VETERINARIO");
+        btnModificarVeterinario.addActionListener(this::btnModificarVeterinarioActionPerformed);
         jPanel1.add(btnModificarVeterinario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 230, -1));
 
         btnBorrarVeterinario.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btnBorrarVeterinario.setText("BORRAR VETERINARIO");
+        btnBorrarVeterinario.addActionListener(this::btnBorrarVeterinarioActionPerformed);
         jPanel1.add(btnBorrarVeterinario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 230, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/veterinario_def-removebg-preview.png"))); // NOI18N
@@ -92,15 +98,163 @@ public class DialogVeterinarios extends javax.swing.JDialog {
 
     private void btnBuscarVeterinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVeterinarioActionPerformed
         // TODO add your handling code here:
+        try {
+
+            String input = JOptionPane.showInputDialog(
+                    this,
+                    "Introduce ID del veterinario"
+            );
+
+            if (input == null) {
+                return;
+            }
+
+            int id = Integer.parseInt(input);
+
+            controladores.VeterinarioDAO dao = new controladores.VeterinarioDAO();
+
+            modelos.VeterinarioDTO vet = dao.findByPk(id);
+
+            if (vet == null) {
+
+                // 👇 ahora sí estilo clase
+                JOptionPane.showMessageDialog(this,
+                        "Veterinario no encontrado");
+
+            } else {
+
+                JOptionPane.showMessageDialog(this,
+                        "ID: " + vet.getId_veterinario()
+                        + " - NIF: " + vet.getNif()
+                        + " - Nombre: " + vet.getNomvete()
+                        + " - Dirección: " + vet.getDir()
+                        + " - Teléfono: " + vet.getTelefono()
+                        + " - Email: " + vet.getEmail());
+            }
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(this,
+                    "El ID debe ser numérico");
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Error al buscar");
+
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnBuscarVeterinarioActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-         this.dispose();
+        this.dispose();
         // esto cierra solo el JDialog, así vuelvo a la ventana principal
     }//GEN-LAST:event_btnVolverActionPerformed
 
-   
+    private void btnMostrarVeterinarios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarVeterinarios1ActionPerformed
+        // TODO add your handling code here:
+        // Crear diálogo de mostrar veterinarios
+        DialogMostrarVeterinarios dialogo
+                = new DialogMostrarVeterinarios(null, true);
+
+        // Mostrar diálogo
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_btnMostrarVeterinarios1ActionPerformed
+
+    private void btnInsertarVeterinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarVeterinarioActionPerformed
+        // TODO add your handling code here:
+        DialogInsertarVeterinario dialogo
+                = new DialogInsertarVeterinario(null, true);
+
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_btnInsertarVeterinarioActionPerformed
+
+    private void btnBorrarVeterinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarVeterinarioActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            // =========================================
+            // PEDIR ID
+            // =========================================
+            String id = JOptionPane.showInputDialog(
+                    this,
+                    "Introduce ID del veterinario a borrar"
+            );
+
+            // Si cancela
+            if (id == null) {
+                return;
+            }
+
+            // Convertir a entero
+            int id_vet = Integer.parseInt(id);
+
+            // DAO
+            controladores.VeterinarioDAO dao = new controladores.VeterinarioDAO();
+
+            // BUSCAR VETERINARIO
+            modelos.VeterinarioDTO vet = dao.findByPk(id_vet);
+
+            // Si no existe
+            if (vet == null) {
+
+                JOptionPane.showMessageDialog(this,
+                        "Veterinario no encontrado");
+
+                return;
+            }
+
+            // CONFIRMAR BORRADO
+            // joptionpane , tiene metodos de si y no
+            int opcion = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Seguro que quieres borrar el veterinario?",
+                    "Confirmar",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            // Si dice NO → salir
+            if (opcion != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            // BORRAR
+            dao.deleteVeterinario(vet);
+            JOptionPane.showMessageDialog(this,
+                    "Veterinario borrado correctamente");
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(this,
+                    "El ID debe ser numérico");
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Error al borrar");
+
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnBorrarVeterinarioActionPerformed
+
+    private void btnModificarVeterinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarVeterinarioActionPerformed
+        // TODO add your handling code here:
+        String input = JOptionPane.showInputDialog(this,
+                "Introduce ID del veterinario");
+
+        if (input == null) {
+            return;
+        }
+
+        int id = Integer.parseInt(input);
+
+        DialogModificarVeterinario dialogo
+                = new DialogModificarVeterinario(null, true, id);
+
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_btnModificarVeterinarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrarVeterinario;
