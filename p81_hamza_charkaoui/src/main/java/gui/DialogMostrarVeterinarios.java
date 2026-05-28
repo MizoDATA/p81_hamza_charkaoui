@@ -23,7 +23,7 @@ public class DialogMostrarVeterinarios extends javax.swing.JDialog {
      */
     public DialogMostrarVeterinarios(java.awt.Frame parent, boolean modal) {
 
-        // Constructor del padre
+        // Constructor del padre del hijo y del espiritu santo
         super(parent, modal);
 
         // Inicializar componentes

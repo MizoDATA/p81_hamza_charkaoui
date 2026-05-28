@@ -24,6 +24,9 @@ public class DialogInsertarMascota extends javax.swing.JDialog {
     public DialogInsertarMascota(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+         // centrar ventana
+        setLocationRelativeTo(null);
     }
 
     /**

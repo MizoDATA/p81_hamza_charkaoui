@@ -128,18 +128,18 @@ public class DialogAsignarVeterinario extends javax.swing.JDialog {
             MascotaDAO dao = new MascotaDAO();
 
             // buscar mascota
-            MascotaDTO m = dao.findByPk(idMascota);
+            MascotaDTO mascota = dao.findByPk(idMascota);
 
-            if (m == null) {
+            if (mascota == null) {
                 JOptionPane.showMessageDialog(this, "Mascota no existe");
                 return;
             }
 
             // asignar veterinario
-            m.setId_veterinario(idVeterinario);
+            mascota.setId_veterinario(idVeterinario);
 
             // actualizar
-            dao.updateMascota(idMascota, m);
+            dao.updateMascota(idMascota, mascota);
 
             JOptionPane.showMessageDialog(this, "Asignado correctamente");
 
@@ -193,9 +193,10 @@ public class DialogAsignarVeterinario extends javax.swing.JDialog {
         try {
 
             MascotaDAO dao = new MascotaDAO();
+            // lista de mascotas
+            List<MascotaDTO> lista = dao.getAll();
 
-            java.util.List<MascotaDTO> lista = dao.getAll();
-
+            // vaciar el combobox antes de meter cosas , flow nextline()
             comboMascotas.removeAllItems();
 
             for (MascotaDTO m : lista) {
@@ -213,8 +214,8 @@ public class DialogAsignarVeterinario extends javax.swing.JDialog {
         try {
 
             VeterinarioDAO dao = new VeterinarioDAO();
-
-            java.util.List<VeterinarioDTO> lista = dao.getAll();
+            // lista de veterinarios
+            List<VeterinarioDTO> lista = dao.getAll();
 
             comboVeterinarios.removeAllItems();
 

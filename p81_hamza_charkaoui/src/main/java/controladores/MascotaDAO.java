@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,34 +182,34 @@ public class MascotaDAO implements IMascota {
 
                 // chip null control
                 if (mascota.getNumchip() == null) {
-                    prest.setNull(2, java.sql.Types.INTEGER);
+                    prest.setNull(2, Types.INTEGER);
                 } else {
                     prest.setInt(2, mascota.getNumchip());
                 }
-
+                
                 // nombre
                 prest.setString(3, mascota.getNommasc());
 
                 // peso null control
                 if (mascota.getPeso() == null) {
-                    prest.setNull(4, java.sql.Types.DOUBLE);
+                    prest.setNull(4, Types.DOUBLE);
                 } else {
                     prest.setDouble(4, mascota.getPeso());
                 }
 
                 // fecha null control
                 if (mascota.getFecnacim() == null) {
-                    prest.setNull(5, java.sql.Types.DATE);
+                    prest.setNull(5, Types.DATE);
                 } else {
-                    prest.setDate(5, java.sql.Date.valueOf(mascota.getFecnacim()));
+                    prest.setDate(5, Date.valueOf(mascota.getFecnacim()));
                 }
 
                 // tipo
                 prest.setString(6, mascota.getTipo());
-
+                
                 // veterinario null control
                 if (mascota.getId_veterinario() == null) {
-                    prest.setNull(7, java.sql.Types.INTEGER);
+                    prest.setNull(7, Types.INTEGER);
                 } else {
                     prest.setInt(7, mascota.getId_veterinario());
                 }
@@ -253,7 +254,7 @@ public class MascotaDAO implements IMascota {
 
                 // chip
                 if (nuevosDatos.getNumchip() == null) {
-                    prest.setNull(1, java.sql.Types.INTEGER);
+                    prest.setNull(1, Types.INTEGER);
                 } else {
                     prest.setInt(1, nuevosDatos.getNumchip());
                 }
@@ -263,16 +264,16 @@ public class MascotaDAO implements IMascota {
 
                 // peso
                 if (nuevosDatos.getPeso() == null) {
-                    prest.setNull(3, java.sql.Types.DOUBLE);
+                    prest.setNull(3, Types.DOUBLE);
                 } else {
                     prest.setDouble(3, nuevosDatos.getPeso());
                 }
 
                 // fecha
                 if (nuevosDatos.getFecnacim() == null) {
-                    prest.setNull(4, java.sql.Types.DATE);
+                    prest.setNull(4, Types.DATE);
                 } else {
-                    prest.setDate(4, java.sql.Date.valueOf(nuevosDatos.getFecnacim()));
+                    prest.setDate(4, Date.valueOf(nuevosDatos.getFecnacim()));
                 }
 
                 // tipo
@@ -280,7 +281,7 @@ public class MascotaDAO implements IMascota {
 
                 // veterinario
                 if (nuevosDatos.getId_veterinario() == null) {
-                    prest.setNull(6, java.sql.Types.INTEGER);
+                    prest.setNull(6, Types.INTEGER);
                 } else {
                     prest.setInt(6, nuevosDatos.getId_veterinario());
                 }

@@ -97,7 +97,12 @@ public class VeterinarioDAO implements IVeterinario {
 
                 // Establecemos los parámetros de la sentencia
                 prest.setInt(1, veterinario.getId_veterinario());
-                prest.setString(2, veterinario.getNif());
+
+                if (veterinario.getNif().isEmpty()) {
+                    System.out.println("No puedes dejar el NIF vacío");
+                } else {
+                    prest.setString(2, veterinario.getNif());
+                }
                 prest.setString(3, veterinario.getNomvete());
                 prest.setString(4, veterinario.getDir());
                 prest.setString(5, veterinario.getTelefono());

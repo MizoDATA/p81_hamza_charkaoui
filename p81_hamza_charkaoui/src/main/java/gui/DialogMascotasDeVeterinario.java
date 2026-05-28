@@ -116,8 +116,8 @@ public class DialogMascotasDeVeterinario extends javax.swing.JDialog {
                     m.getId_mascota(),
                     m.getNumchip(),
                     m.getNommasc(),
-                    m.getPeso() == null ? "" : m.getPeso(),
-                    m.getFecnacim() == null ? "" : m.getFecnacim(),
+                    m.getPeso(),
+                    m.getFecnacim(),
                     m.getTipo()
                 };
 
